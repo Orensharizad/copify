@@ -1,8 +1,12 @@
-import React from 'react'
+import StationPreview from './StationPreview';
 
-function StationList() {
+function StationList({ stations }) {
     return (
-        <div>StationList</div>
+        <section className='grid-card'>
+            {stations.map(station =>
+                <StationPreview key={station._id} station={station} />
+            )}
+        </section>
     )
 }
 

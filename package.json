@@ -6,12 +6,12 @@
     "start": "next start"
   },
   "dependencies": {
+    "@heroicons/react": "^2.0.16",
+    "lodash": "^4.17.21",
     "next": "latest",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "tailwind-scrollbar-hide": "^1.1.7",
-    "@heroicons/react": "^2.0.16",
-    "lodash": "^4.17.21"
+    "tailwind-scrollbar-hide": "^1.1.7"
   },
   "devDependencies": {
     "@types/node": "18.11.3",
