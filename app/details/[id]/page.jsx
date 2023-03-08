@@ -3,11 +3,16 @@ import React, { useEffect, useState } from 'react'
 import { stationService } from '../../../services/station.service'
 import { shuffle } from 'lodash';
 import SongList from "../../../components/SongList";
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { currSongState, currStationState } from '../../../atoms/songAtom';
+import Loader from '../../../components/Loader';
+
 
 
 function StationDetails({ params: { id } }) {
     const [station, setStation] = useState()
     const [color, setColor] = useState(null)
+    const [currSong, setCurrSong] = useRecoilState(currSongState)
 
     const colors = [
         'from-indigo-500',
@@ -18,22 +23,30 @@ function StationDetails({ params: { id } }) {
         'from-pink-500',
         'from-purple-500',
     ]
-
     useEffect(() => {
         getStation()
         setColor(shuffle(colors).pop())
 
     }, [])
 
+
+
     const getStation = async () => {
         try {
             const station = await stationService.getById(id)
+            console.log('station: ', station);
             setStation(station)
+            setCurrSong(station.songs[0])
 
         } catch (err) {
             console.log('cannot get station by id', err)
         }
     }
+
+
+
+
+    if (!station) return <Loader />
     return (
         <div className=' flex-grow h-screen overflow-y-scroll scrollbar-hide  '>
             <section className={`flex items-end space-x-7 bg-gradient-to-b to-black ${color}  h-80 text-white p-8 `}>
@@ -43,7 +56,9 @@ function StationDetails({ params: { id } }) {
                     <h2 className='text-2xl md:text-3xl lg:text-5xl font-bold'>{station?.name}</h2>
                 </div>
             </section>
+
             <SongList station={station} />
+
         </div>
     )
 }

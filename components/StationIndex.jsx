@@ -1,13 +1,13 @@
 'use client'
-
 import { useEffect, useState } from 'react'
-import { stationService } from '../services/station.service';
+import { stationService } from '../services/station.service'
+import FirstStationList from './FirstStationList'
+import Loader from './Loader'
 import StationList from './StationList'
 
 function StationIndex() {
 
     const [stations, setStations] = useState([])
-    console.log('stations: ', stations);
 
     useEffect(() => {
         loadStations()
@@ -15,21 +15,39 @@ function StationIndex() {
 
     const loadStations = async () => {
         try {
-            const stations = await stationService.query()
-            setStations(stations)
+            const res = await stationService.query()
+            setStations(res)
 
         } catch (err) {
-            console.log('err: cannot load Stations:', err)
+            console.log('err:', err)
         }
-
     }
 
+    if (!stations.length) return <Loader />
+
     return (
-        <section className='flex-grow h-screen overflow-y-scroll scrollbar-hide '>
-            <StationList stations={stations} />
-
+        <section className='flex-grow flex-col h-screen overflow-y-scroll scrollbar-hide  ' >
+            <section className='bg-gradient-to-b to-black from-[#c16967] pt-20 px-4 pb-2'>
+                <h3 className='text-3xl font-bold text-white pb-4'>Good afternoon</h3>
+                <FirstStationList stations={stations?.slice(0, 6)} />
+            </section>
+            <section className=' p-4 '>
+                <h3 className='text-3xl text-white pb-4'>Made For You</h3>
+                <StationList stations={stations?.slice(7, 11)} />
+            </section>
+            <section className=' p-4 '>
+                <h3 className='text-3xl text-white pb-4'>Chill</h3>
+                <StationList stations={stations?.slice(11, 15)} />
+            </section>
+            <section className=' p-4 '>
+                <h3 className='text-3xl text-white pb-4'>Recently played</h3>
+                <StationList stations={stations?.slice(15, 19)} />
+            </section>
+            <section className=' p-4 pb-28 '>
+                <h3 className='text-3xl text-white pb-4'>More of what you like</h3>
+                <StationList stations={stations?.slice(19, 23)} />
+            </section>
         </section>
-
     )
 }
 

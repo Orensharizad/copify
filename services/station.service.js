@@ -12,18 +12,25 @@ export const stationService = {
     remove,
     save,
     removeSong,
-    getEmptyStation
+    getEmptyStation,
+    getGenre
+
 }
 
 async function query() {
-    return await storageService.query(STATION_KEY)
-
+    const res = await fetch('/api/station')
+    return res.json()
 }
 
 
+async function getById(stationId) {
+    try {
+        const res = await fetch(`/api/station/${stationId}`)
+        return res.json()
 
-function getById(stationId) {
-    return storageService.get(STATION_KEY, stationId)
+    } catch (err) {
+        console.log('err from service:', err)
+    }
 }
 
 function remove(stationId) {
@@ -73,10 +80,58 @@ function _getStationDefaultName() {
 }
 // _createStations()
 function _createStations() {
-    const stored = localStorage.getItem(key);
-    let stations = stored ? JSON.parse(stored) : '';
-    if (!stations || !stations.length) {
-        stations = homeStations
-        localStorage.setItem(STATION_KEY, JSON.stringify(stations))
-    }
+    // const stored = localStorage.getItem(key);
+    // let stations = stored ? JSON.parse(stored) : '';
+    // if (!stations || !stations.length) {
+    //     stations = homeStations
+    let stations = homeStations
+    if (stations) return
+    localStorage.setItem(STATION_KEY, JSON.stringify(stations))
 }
+
+function getGenre() {
+    return [
+        {
+            imgUrl: 'https://res.cloudinary.com/damrhms1q/image/upload/v1674723861/Rock_anpilw.png',
+            title: "Funk",
+            id: 'g101'
+        },
+        {
+            imgUrl: 'https://res.cloudinary.com/damrhms1q/image/upload/v1674723861/Hip-Hop_o8kiea.png',
+            title: "Happy",
+            id: 'g102'
+
+        },
+        {
+            imgUrl: 'https://res.cloudinary.com/damrhms1q/image/upload/v1674723861/Pop_vwx3vt.png',
+            title: "Pop",
+            id: 'g103'
+
+        },
+        {
+            imgUrl: 'https://res.cloudinary.com/damrhms1q/image/upload/v1674723847/Made_For_You_i1fiyc.png',
+            title: "Made For you",
+            id: 'g104'
+
+        },
+        {
+            imgUrl: 'https://res.cloudinary.com/damrhms1q/image/upload/v1674723860/Latin_ng4wub.png',
+            title: "Chill",
+            id: 'g105'
+
+        },
+        {
+            imgUrl: 'https://res.cloudinary.com/damrhms1q/image/upload/v1674723861/New_releases_vhuzn0.png',
+            title: "Recently played",
+            id: 'g106'
+
+        },
+        {
+            imgUrl: 'https://res.cloudinary.com/damrhms1q/image/upload/v1674723847/Charts_kww67d.png',
+            title: "More of what you like",
+            id: 'g107'
+
+        },
+    ]
+}
+

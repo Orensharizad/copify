@@ -1,6 +1,9 @@
+'use client'
+
 import SideBar from "../components/SideBar"
-import StationIndex from "../components/StationIndex"
+import Player from "../components/Player"
 import '../styles/globals.css'
+import { RecoilRoot } from "recoil"
 
 
 export const metadata = {
@@ -14,18 +17,19 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <head />
-      <body>
-        <div className="bg-black h-screen overflow-hidden flex">
-          <div >
-            <SideBar />
+    <RecoilRoot>
+      <html lang="en">
+        <head />
+        <body>
+          <div className="bg-black h-screen overflow-hidden ">
+            <div className='flex' >
+              <SideBar />
+              <div className='flex-1'>{children}</div>
+            </div>
+            <div className='sticky bottom-0'> <Player /></div>
           </div>
-          <div className='flex-1'>{children}</div>
-
-        </div>
-
-      </body>
-    </html>
+        </body>
+      </html>
+    </RecoilRoot>
   )
 }

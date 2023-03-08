@@ -1,35 +1,17 @@
-'use client'
 
-import { useEffect, useState } from 'react'
-import StationList from '../components/StationList';
-import { stationService } from '../services/station.service';
 
-function StationIndex() {
+import StationIndex from '../components/StationIndex';
 
-    const [stations, setStations] = useState([])
-    
-    useEffect(() => {
-        loadStations()
-    }, [])
 
-    const loadStations = async () => {
-        try {
-            const stations = await stationService.query()
-            setStations(stations)
-
-        } catch (err) {
-            console.log('err: cannot load Stations:', err)
-        }
-
-    }
+export default function Home() {
 
     return (
-        <section className='flex-grow h-screen overflow-y-scroll scrollbar-hide '>
-            <StationList stations={stations} />
-
-        </section>
-
+        <StationIndex />
     )
 }
 
-export default StationIndex
+
+
+
+
+
