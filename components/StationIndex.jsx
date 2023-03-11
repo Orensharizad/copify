@@ -26,7 +26,7 @@ function StationIndex() {
     if (!stations.length) return <Loader />
 
     return (
-        <section className='flex-grow flex-col h-screen overflow-y-scroll scrollbar-hide  ' >
+        <section className='flex-grow flex-col h-screen overflow-y-scroll scrollbar-hide pb-24  ' >
             <section className='bg-gradient-to-b to-black from-[#c16967] pt-20 px-4 pb-2'>
                 <h3 className='text-3xl font-bold text-white pb-4'>Good afternoon</h3>
                 <FirstStationList stations={stations?.slice(0, 6)} />

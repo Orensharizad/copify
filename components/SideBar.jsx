@@ -17,10 +17,10 @@ function SideBar() {
                     <MagnifyingGlassIcon className="h-6 w-6" />
                     <p>Search</p>
                 </Link>
-                <button className="sidebar-item">
+                <Link href={'/libary'} className="sidebar-item">
                     <BuildingLibraryIcon className="h-6 w-6" />
                     <p>Your Libary</p>
-                </button>
+                </Link>
 
                 <button className="sidebar-item">
                     <PlusCircleIcon className="h-6 w-6" />

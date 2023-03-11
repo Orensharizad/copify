@@ -19,7 +19,6 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   const [user, loading, error] = useAuthState(auth);
-  console.log('user: ', user);
   const isLogin = JSON.parse(sessionStorage.getItem('user'))
 
 
@@ -33,13 +32,13 @@ export default function RootLayout({ children }) {
             !user ? <LoginPage />
               :
               <>
-                <div className="bg-black h-screen  flex  ">
+                <main className="bg-black h-screen  flex   ">
                   <SideBar />
                   <div className='flex flex-col w-full ' >
                     <AppHeader user={user} />
-                    <div className='flex-1'>{children}</div>
+                    <div className='flex-1 '>{children}</div>
                   </div>
-                </div>
+                </main>
                 <div className='sticky bottom-0'> <Player /></div>
               </>
           }

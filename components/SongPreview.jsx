@@ -15,7 +15,7 @@ function SongPreview({ song, order }) {
     const [isHover, setIsHover] = useState(false)
 
     const [isLikedSong, setIsLikedSong] = useState(false)
-    const [user, loading, error] = useAuthState(auth);
+    const [user] = useAuthState(auth);
 
 
 

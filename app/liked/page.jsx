@@ -4,7 +4,7 @@ import { songService } from '../../services/song.service'
 import { shuffle } from 'lodash';
 import SongList from "../../components/SongList";
 import { useRecoilState } from 'recoil';
-import { currSongState, currStationState, isPlayingState } from '../../atoms/songAtom';
+import { currStationState, isPlayingState } from '../../atoms/songAtom';
 import Loader from '../../components/Loader';
 import { HeartIcon, } from "@heroicons/react/24/outline"
 import { collection, getDocs, } from "firebase/firestore";
@@ -17,13 +17,11 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 
 
 function LikedSong({ params: { id } }) {
-    const [songs, setSongs] = useState()
     const [station, setStation] = useState(null)
     const [currStation, setCurrStation] = useRecoilState(currStationState)
     const [color, setColor] = useState(null)
-    const [currSong, setCurrSong] = useRecoilState(currSongState)
     const [isPlaying, setIsPlaying] = useRecoilState(isPlayingState)
-    const [user, loading, error] = useAuthState(auth);
+    const [user] = useAuthState(auth);
 
 
     const colors = [
@@ -80,7 +78,6 @@ function LikedSong({ params: { id } }) {
         ev.stopPropagation()
         setCurrStation(station)
         setIsPlaying(diff)
-        // setCurrSong(station.songs[0])
 
     }
 

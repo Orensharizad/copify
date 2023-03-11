@@ -1,7 +1,6 @@
 
 'use client'
 
-import { PlayCircleIcon } from "@heroicons/react/24/solid";
 import { useRouter } from "next/navigation"
 import { useState } from "react";
 import { useRecoilState } from "recoil";
@@ -14,10 +13,15 @@ function StationPreview({ station }) {
     const [currSong, setCurrSong] = useRecoilState(currSongState)
     const [isPlaying, setIsPlaying] = useRecoilState(isPlayingState)
 
+
+
+
+
     const onNavigate = () => {
         setCurrStation(station)
         router.push(`/details/${station._id}`)
     }
+
 
     const onPlayStation = (ev, diff) => {
         ev.stopPropagation()
