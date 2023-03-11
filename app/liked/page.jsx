@@ -1,23 +1,30 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import { stationService } from '../../../services/station.service'
+import { songService } from '../../services/song.service'
 import { shuffle } from 'lodash';
-import SongList from "../../../components/SongList";
+import SongList from "../../components/SongList";
 import { useRecoilState } from 'recoil';
-import { currSongState, currStationState, isPlayingState } from '../../../atoms/songAtom';
-import Loader from '../../../components/Loader';
+import { currSongState, currStationState, isPlayingState } from '../../atoms/songAtom';
+import Loader from '../../components/Loader';
 import { HeartIcon, } from "@heroicons/react/24/outline"
+import { collection, getDocs, } from "firebase/firestore";
+import { auth, db, } from '../../firebase'
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 
 
 
 
-function StationDetails({ params: { id } }) {
-    const [station, setStation] = useState()
+
+function LikedSong({ params: { id } }) {
+    const [songs, setSongs] = useState()
+    const [station, setStation] = useState(null)
     const [currStation, setCurrStation] = useRecoilState(currStationState)
     const [color, setColor] = useState(null)
     const [currSong, setCurrSong] = useRecoilState(currSongState)
     const [isPlaying, setIsPlaying] = useRecoilState(isPlayingState)
+    const [user, loading, error] = useAuthState(auth);
+
 
     const colors = [
         'from-indigo-500',
@@ -32,25 +39,41 @@ function StationDetails({ params: { id } }) {
 
     useEffect(() => {
         setColor(shuffle(colors).pop())
+        getLikedSongs()
 
-    }, [currSong])
-
-    useEffect(() => {
-        getStation()
     }, [])
 
 
 
 
-    const getStation = async () => {
+
+    const getLikedSongs = async () => {
+
         try {
-            const station = await stationService.getById(id)
+            const res = await getDocs(collection(db, 'users', user.email, 'songs'))
+            const likedSongIds = res.docs.map(doc => doc.data())
+            const songs = await songService.query()
+            const likedSongs = songs.reduce((acc, song) => {
+                likedSongIds.forEach(s => {
+                    if (song.id === s.songId) return acc.push(song)
+
+                })
+                return acc
+
+            }, [])
+            const station = {
+                _id: 'likedSongs101',
+                name: 'Liked Songs',
+                songs: likedSongs,
+                imgUrl: 'https://res.cloudinary.com/damrhms1q/image/upload/v1674838098/likedSongPic_lrwwnc.png'
+            }
             setStation(station)
-            setCurrSong(station.songs[0])
+
 
         } catch (err) {
-            console.log('cannot get station by id', err)
+            console.log('err:', err)
         }
+
     }
 
     const onPlayStation = (ev, diff) => {
@@ -96,4 +119,4 @@ function StationDetails({ params: { id } }) {
     )
 }
 
-export default StationDetails
+export default LikedSong

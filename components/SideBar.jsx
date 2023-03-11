@@ -3,7 +3,7 @@ import Link from "next/link"
 
 function SideBar() {
     return (
-        <div className="bg-black text-white p-5 text-xs border-r border-gray-900 overflow-y-scroll h-screen scrollbar-hide lg:text-sm sm:max-w-[12rem] lg:min-w-[15rem] hidden md:inline-flex ">
+        <div className="bg-black text-white p-5 text-xs border-r border-gray-900 overflow-hidden h-screen scrollbar-hide lg:text-sm sm:max-w-[12rem] lg:min-w-[15rem] hidden md:inline-flex ">
             <div className="space-y-4 text-md font-bold">
                 <div className="flex items-center justify-center gap-3">
                     <img className="w-10 h-10" src="https://playlist-kqq9.onrender.com/static/media/logo-pic-white.0b8c5ac6eec4a813c1c2.png" alt="" />
@@ -26,14 +26,11 @@ function SideBar() {
                     <PlusCircleIcon className="h-6 w-6" />
                     <p>Create Playlist</p>
                 </button>
-                <button className="sidebar-item">
+                <Link href={'/liked'} className="sidebar-item">
                     <HeartIcon className="h-6 w-6" />
                     <p>Liked Songs</p>
-                </button>
-                <button className="sidebar-item">
-                    <RssIcon className="h-6 w-6" />
-                    <p>Your episodes</p>
-                </button>
+                </Link>
+
 
 
 

@@ -38,20 +38,23 @@ function Player() {
   const onChangeSong = (diff) => {
     if (!station) return
     const currSongIdx = station.songs.findIndex(s => s.title === song.title)
-    if (diff === 1 && currSongIdx >= station.songs.length) return
+    if (diff === 1 && currSongIdx >= station.songs.length - 1) return
     if (diff === -1 && currSongIdx === 0) return
     const songs = [...station.songs]
     setSong(songs[currSongIdx + diff])
 
   }
 
-  const onChangeVol = ({ target }) => {
+  const onHandleChange = ({ target }) => {
     const value = target.value
     setVolumn(value)
   }
 
-
-
+  const onChangeVol = (diff) => {
+    if (diff === -0.1 && volumn <= 0) return
+    if (diff === 0.1 && volumn >= 1) return
+    setVolumn(prev => prev + diff)
+  }
 
 
   return (
@@ -80,7 +83,7 @@ function Player() {
       </div>
 
       <div className='hidden md:flex items-center space-x-3 md:space-x-4 justify-end pr-5'>
-        <SpeakerWaveIcon className='btn-control' />
+        <SpeakerWaveIcon onClick={() => onChangeVol(-0.1)} className='btn-control' />
         <input
           className='w-14 md:w-28 '
           type="range"
@@ -88,9 +91,9 @@ function Player() {
           max={1}
           step='0.1'
           value={volumn}
-          onChange={onChangeVol}
+          onChange={onHandleChange}
         />
-        <SpeakerWaveIcon className='btn-control' />
+        <SpeakerWaveIcon onClick={() => onChangeVol(0.1)} className='btn-control' />
       </div>
 
       {hasWindow && <div className='hidden'>
