@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { stationService } from '../services/station.service'
+import { utilService } from '../services/util.service'
 import FirstStationList from './FirstStationList'
 import Loader from './Loader'
 import StationList from './StationList'
@@ -8,6 +9,7 @@ import StationList from './StationList'
 function StationIndex() {
 
     const [stations, setStations] = useState([])
+    const timeGreet = utilService.getCurrentTimeGreet()
 
     useEffect(() => {
         loadStations()
@@ -28,7 +30,7 @@ function StationIndex() {
     return (
         <section className='flex-grow flex-col h-screen overflow-y-scroll scrollbar-hide pb-24  ' >
             <section className='bg-gradient-to-b to-black from-[#c16967] pt-20 px-4 pb-2'>
-                <h3 className='text-3xl font-bold text-white pb-4'>Good afternoon</h3>
+                <h3 className='text-3xl font-bold text-white pb-4'>{timeGreet}</h3>
                 <FirstStationList stations={stations?.slice(0, 6)} />
             </section>
             <section className=' p-4 '>

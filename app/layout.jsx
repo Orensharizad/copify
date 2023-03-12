@@ -7,8 +7,8 @@ import { RecoilRoot } from "recoil"
 import LoginPage from "../components/LoginSignUp"
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from "../firebase";
-import Loader from "../components/Loader"
 import AppHeader from "../components/AppHeader"
+import UserMsg from "../components/UserMsg"
 
 
 
@@ -29,17 +29,20 @@ export default function RootLayout({ children }) {
         <head />
         <body className="">
           {
-            !user ? <LoginPage />
+            !user && !loading ? <LoginPage />
               :
               <>
                 <main className="bg-black h-screen  flex   ">
                   <SideBar />
                   <div className='flex flex-col w-full ' >
                     <AppHeader user={user} />
-                    <div className='flex-1 '>{children}</div>
+                    <div className='flex-1 '>
+                      {children}
+                    </div>
                   </div>
                 </main>
                 <div className='sticky bottom-0'> <Player /></div>
+                <UserMsg />
               </>
           }
         </body>

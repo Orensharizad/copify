@@ -9,7 +9,7 @@ import { collection, addDoc, getDocs, getDoc, doc, deleteDoc } from "firebase/fi
 import { auth, db, } from '../firebase'
 import { useAuthState } from 'react-firebase-hooks/auth';
 
-function SongPreview({ song, order }) {
+function SongPreview({ song, order, onRemoveSong }) {
     const [duration, setDuration] = useState('--:--')
     const [currSong, setCurrSong] = useRecoilState(currSongState)
     const [isHover, setIsHover] = useState(false)
@@ -111,7 +111,7 @@ function SongPreview({ song, order }) {
             <div className='flex items-center justify-end gap-10 ml-auto md:ml-0' >
                 <HeartIcon onClick={ev => toggleIsLike(ev)} className={`h-5 w-5 opacity-0  cursor-pointer text-white ${isHover && 'opacity-100'} ${isLikedSong && 'fill-[#1ed760] stroke-[#1ed760] opacity-100'}`} />
                 <p>{duration}</p>
-                <TrashIcon className={`h-5 w-5 opacity-0  cursor-pointer text-white ${isHover && 'opacity-100'}`} />
+                <TrashIcon onClick={() => onRemoveSong(song.id)} className={`h-5 w-5 opacity-0  cursor-pointer text-white ${isHover && 'opacity-100'}`} />
             </div>
         </div>
     )

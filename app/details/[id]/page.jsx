@@ -11,6 +11,8 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, db } from '../../../firebase';
 import { addDoc, collection, deleteDoc, doc, getDocs } from 'firebase/firestore';
 import AddSong from '../../../components/AddSong';
+import EditModal from '../../../components/EditModal';
+import { toast } from 'react-hot-toast';
 
 
 
@@ -23,6 +25,7 @@ function StationDetails({ params: { id } }) {
     const [currSong, setCurrSong] = useRecoilState(currSongState)
     const [isPlaying, setIsPlaying] = useRecoilState(isPlayingState)
     const [isLikedStation, setIsLikedStation] = useState(false)
+    const [isEdit, setIsEdit] = useState(false)
 
     const [user] = useAuthState(auth);
 
@@ -40,13 +43,12 @@ function StationDetails({ params: { id } }) {
 
     useEffect(() => {
         setColor(shuffle(colors).pop())
-
     }, [currSong])
 
     useEffect(() => {
         getStation()
 
-    }, [])
+    }, [user])
 
 
     const toggleIsLike = async (ev) => {
@@ -92,6 +94,7 @@ function StationDetails({ params: { id } }) {
     }
 
     const loadIsLikedStation = async (station) => {
+        if (!user) return
         try {
             const res = await getDocs(collection(db, 'users', user?.email, 'stations'))
             const likedStations = res.docs.map(doc => doc.data())
@@ -99,18 +102,57 @@ function StationDetails({ params: { id } }) {
             setIsLikedStation(isLikedStation)
 
         } catch (err) {
-            console.log('err:', err)
+            console.log('cannot find if is liked station:', err)
         }
     }
 
+    const onAddSong = async (song) => {
+        const stationToUpdate = { ...station }
+        stationToUpdate.songs.unshift(song)
+        try {
+            await stationService.save(stationToUpdate)
+            setStation(stationToUpdate)
+            setCurrSong(station.songs[0])
+            toast.success('Song Added')
+
+        } catch (err) {
+            console.log('cannot update Station', err)
+        }
+    }
+
+    const onRemoveSong = async (songId) => {
+        try {
+            const newStation = await stationService.removeSong(station._id, songId)
+            setStation(newStation)
+            toast.success('Song Removed')
 
 
+        } catch (err) {
+            console.log('cannot remove Song:', err)
+        }
+
+    }
+
+    const onUpdateStation = async (station) => {
+
+        try {
+            const updatedStation = await stationService.save(station)
+            setStation(updatedStation)
+            setIsEdit(false)
+            toast.success('Station updated ')
+        } catch (err) {
+            console.log('err : cannot update station:', err)
+
+        }
+
+    }
 
 
     const getStation = async () => {
         try {
             const station = await stationService.getById(id)
             setStation(station)
+            setCurrStation(station)
             setCurrSong(station.songs[0])
             loadIsLikedStation(station)
 
@@ -124,7 +166,6 @@ function StationDetails({ params: { id } }) {
         ev.stopPropagation()
         setCurrStation(station)
         setIsPlaying(diff)
-        // setCurrSong(station.songs[0])
 
     }
 
@@ -135,10 +176,11 @@ function StationDetails({ params: { id } }) {
     return (
         <div className=' flex-grow h-screen overflow-y-scroll scrollbar-hide   '>
             <section className={` bg-gradient-to-b to-black ${color}  h-80 text-white p-8 `}>
-                <div className='flex items-end space-x-7 '>
+                <div onClick={() => setIsEdit(true)} className=' cursor-pointer flex items-end space-x-7 '>
                     <img className='w-44 h-44 shadow-2xl' src={station?.imgUrl} alt="" />
                     <div>
                         <p>PLAYLIST</p>
+                        {station?.description && <p>{station?.description}</p>}
                         <h2 className='text-2xl md:text-3xl lg:text-5xl font-bold'>{station?.name}</h2>
                     </div>
                 </div>
@@ -157,7 +199,10 @@ function StationDetails({ params: { id } }) {
                 </section>
             </section>
 
-            <SongList station={station} />
+            <SongList station={station} onRemoveSong={onRemoveSong} />
+            <AddSong onAddSong={onAddSong} />
+
+            {isEdit && <EditModal onUpdateStation={onUpdateStation} station={station} setIsEdit={setIsEdit} />}
 
         </div>
     )

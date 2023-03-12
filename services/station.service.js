@@ -1,6 +1,8 @@
 import { utilService } from './util.service'
 import { storageService } from './storage.service'
 import { homeStations } from '../data/station'
+import { httpService } from './http.service.js'
+
 
 const STATION_KEY = 'stationDB'
 
@@ -18,19 +20,21 @@ export const stationService = {
 }
 
 async function query() {
-    const res = await fetch('/api/station')
-    return res.json()
+    // const res = await fetch('/api/station')
+    // return res.json()
+    return httpService.get('station')
 }
 
 
 async function getById(stationId) {
-    try {
-        const res = await fetch(`/api/station/${stationId}`)
-        return res.json()
+    return httpService.get('station/' + stationId)
+    // try {
+    //     const res = await fetch(`/api/station/${stationId}`)
+    //     return res.json()
 
-    } catch (err) {
-        console.log('err from service:', err)
-    }
+    // } catch (err) {
+    //     console.log('err from service:', err)
+    // }
 }
 
 function remove(stationId) {
@@ -39,9 +43,9 @@ function remove(stationId) {
 
 function save(station) {
     if (station._id) {
-        return storageService.put(STATION_KEY, station)
+        return httpService.put('station/' + station._id, station)
     } else {
-        return storageService.post(STATION_KEY, station)
+        return httpService.post('station/', station)
     }
 }
 

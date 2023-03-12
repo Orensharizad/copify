@@ -38,9 +38,10 @@ function Player() {
   }
 
   const onChangeSong = (diff) => {
-    if (!station.length) return
+    if (!station) return
     const currSongIdx = station.songs.findIndex(s => s.title === song.title)
     if (diff === 1 && currSongIdx >= station.songs.length - 1) return
+
     if (diff === -1 && currSongIdx === 0) return
     const songs = [...station.songs]
     setSong(songs[currSongIdx + diff])

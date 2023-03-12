@@ -43,11 +43,12 @@ function Libary() {
     }
 
 
-    if (!stations.length) return <Loader />
+    if (!stations) return <Loader />
     return (
         <section className=' p-4 '>
             <h3 className='text-3xl font-bold text-white pb-4'>Your Libary</h3>
             <StationList stations={stations} />
+            {!stations.length && <h3 className='text-3xl font-bold text-white pb-4'>You still have nothing here</h3>}
         </section>
     )
 }
