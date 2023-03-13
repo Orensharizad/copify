@@ -16,7 +16,10 @@ const handler = async (req, res) => {
         try {
             const station = req.body
             const updatedStation = await update(station)
-            res.json(updatedStation)
+            // console.log('updatedStation: ', updatedStation);
+            // res.json(updatedStation)
+            return res.status(200).json(updatedStation)
+
         } catch (err) {
             console.error('Failed to update station', err)
             res.status(500).send({ err: 'Failed to update station' })
@@ -34,7 +37,7 @@ const handler = async (req, res) => {
         }
     }
 
-    res.setHeader('Content-Type', 'application/json')
+    // res.setHeader('Content-Type', 'application/json')
     res.status(425).end(`Method ${req.method} is not allowed}`)
 }
 

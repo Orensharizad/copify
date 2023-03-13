@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState, useRef } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { currSongState, currStationState, isPlayingState, playerState } from '../atoms/songAtom';
+import { currSongState, currStationState, isPlayingState, } from '../atoms/songAtom';
 import {
   ArrowsRightLeftIcon,
   ArrowUturnLeftIcon,
