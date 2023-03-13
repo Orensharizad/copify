@@ -93,4 +93,53 @@
         opacity: 1;
     }
 
+    input[type=range]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        transition: all .1s;
+        border: none;
+        height: 3px;
+        width: 3px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    .player-progress {
+        margin-left: 10px;
+        margin-right: 10px;
+        text-align: center;
+        justify-self: center;
+        width: 94%;
+        -webkit-appearance: none;
+        background-color: #a7a7a7;
+        height: 3.5px;
+        border-radius: 2rem;
+    }
+
+    .player-progress:hover {
+        cursor: pointer;
+    }
+
+    .player-progress:hover::-webkit-slider-thumb {
+        border: none;
+        height: 12px;
+        width: 12px;
+        background: #fff
+    }
+
+    .volume-range {
+        max-width: 26%;
+        -webkit-appearance: none;
+        background-color: #a7a7a7;
+        height: 3.5px;
+        border-radius: 2rem;
+        margin-inline-end: 32px;
+    }
+
+    .volume-range:hover::-webkit-slider-thumb {
+        border: none;
+        height: 12px;
+        width: 12px;
+        background: #fff
+    }
+
 }

@@ -1,5 +1,4 @@
 'use client'
-import { useEffect, useState } from "react";
 import SideBar from "../components/SideBar"
 import Player from "../components/Player"
 import '../styles/globals.css'
@@ -19,7 +18,6 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   const [user, loading, error] = useAuthState(auth);
-  const isLogin = JSON.parse(sessionStorage.getItem('user'))
 
 
 
@@ -33,7 +31,7 @@ export default function RootLayout({ children }) {
               :
               <>
                 <main className="bg-black h-screen  flex   ">
-                  <SideBar />
+                  <SideBar user={user} />
                   <div className='flex flex-col w-full ' >
                     <AppHeader user={user} />
                     <div className='flex-1 '>

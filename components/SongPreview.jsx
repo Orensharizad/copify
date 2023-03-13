@@ -102,7 +102,7 @@ function SongPreview({ song, order, onRemoveSong }) {
         <div onMouseEnter={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)} onClick={onPlaySong} className='grid grid-cols-2 text-gray-500 py-2 px-5 hover:bg-[#3a3a3aa9] rounded-lg cursor-pointer '>
             <div className={`flex items-center space-x-4 ${currSong.id === song.id ? 'text-green-500' : ''}`}>
                 <p>{order + 1}</p>
-                <img className='h-10 w-10' src={song.imgUrl} />
+                <img className='h-7 w-7 md:h-10 md:w-10' src={song.imgUrl} />
                 <div>
                     <p className='w-36 lg:w-64  truncate'>{song.title}</p>
                     <p className='w-40 text-white '>{song.channelTitle}</p>

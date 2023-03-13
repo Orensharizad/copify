@@ -1,5 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
+import { useRecoilState } from 'recoil'
+import { currStationsState } from '../atoms/songAtom'
 import { stationService } from '../services/station.service'
 import { utilService } from '../services/util.service'
 import FirstStationList from './FirstStationList'
@@ -8,7 +10,7 @@ import StationList from './StationList'
 
 function StationIndex() {
 
-    const [stations, setStations] = useState([])
+    const [stations, setStations] = useRecoilState(currStationsState)
     const timeGreet = utilService.getCurrentTimeGreet()
 
     useEffect(() => {

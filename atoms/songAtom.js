@@ -2,7 +2,6 @@ import { atom } from "recoil";
 
 export const currSongState = atom({
     key: 'currSongState',
-    // default: null
     default: {
         "id": "TmKh7lAwnBI",
         "title": "BAD BUNNY x JHAY CORTEZ  DÁKITI ",
@@ -15,6 +14,12 @@ export const currSongState = atom({
 export const currStationState = atom({
     key: 'currStationState',
     default: {}
+})
+
+
+export const currStationsState = atom({
+    key: 'currStationsState',
+    default: []
 })
 
 export const playerState = atom({

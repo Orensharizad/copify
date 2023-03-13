@@ -1,12 +1,5 @@
-import { utilService } from './util.service'
-import { storageService } from './storage.service'
-import { homeStations } from '../data/station'
+
 import { httpService } from './http.service.js'
-
-
-const STATION_KEY = 'stationDB'
-
-let stationNum = 1
 
 export const stationService = {
     query,
@@ -19,26 +12,13 @@ export const stationService = {
 
 }
 
-async function query() {
-    // const res = await fetch('/api/station')
-    // return res.json()
+function query() {
     return httpService.get('station')
 }
 
-
-async function getById(stationId) {
+function getById(stationId) {
     return httpService.get('station/' + stationId)
-    // try {
-    //     const res = await fetch(`/api/station/${stationId}`)
-    //     return res.json()
 
-    // } catch (err) {
-    //     console.log('err from service:', err)
-    // }
-}
-
-function remove(stationId) {
-    return storageService.remove(STATION_KEY, stationId)
 }
 
 function save(station) {
@@ -48,6 +28,11 @@ function save(station) {
         return httpService.post('station/', station)
     }
 }
+
+function remove(stationId) {
+    return httpService.delete('station/' + stationId)
+}
+
 
 async function removeSong(stationId, songId) {
     try {
@@ -61,37 +46,19 @@ async function removeSong(stationId, songId) {
     }
 }
 
-function getEmptyStation() {
+function getEmptyStation(user) {
     return {
-        "_id": "",
-        "name": _getStationDefaultName(),
+        "name": '#MyPlaylist',
         "tags": [],
+        "imgUrl": "https://res.cloudinary.com/dsvs2bgn4/image/upload/v1678635352/emptystation_bxa0bl.png",
         "createdBy": {
-            _id: '5cksxjas89xjsa8xjsa8GGG7',
-            username: 'guest',
-            imgUrl: "https://robohash.org/set=set3",
-            fullname: 'Guest'
+            _id: user.uid,
+            username: user.email,
         },
-        "likedByUsers": [],
         "songs": [],
-        "msgs": [],
     }
 }
-function _getStationDefaultName() {
-    const stationName = `My Playlist #${stationNum}`
-    stationNum++
-    return stationName
-}
-// _createStations()
-function _createStations() {
-    // const stored = localStorage.getItem(key);
-    // let stations = stored ? JSON.parse(stored) : '';
-    // if (!stations || !stations.length) {
-    //     stations = homeStations
-    let stations = homeStations
-    if (stations) return
-    localStorage.setItem(STATION_KEY, JSON.stringify(stations))
-}
+
 
 function getGenre() {
     return [

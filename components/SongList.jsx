@@ -3,7 +3,7 @@ import SongPreview from "./SongPreview";
 
 function SongList({ station, onRemoveSong }) {
     return (
-        <div className='text-white px-8 flex flex-col space-y-1  '>
+        <div className='text-white md:px-8 flex flex-col space-y-1  '>
             {station?.songs?.map((song, idx) =>
                 <SongPreview key={song.id} song={song} onRemoveSong={onRemoveSong} order={idx} />
             )}

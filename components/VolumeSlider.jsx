@@ -1,44 +1,34 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Slider from '@mui/material/Slider';
-import VolumeDown from '@mui/icons-material/VolumeDown';
-import VolumeUp from '@mui/icons-material/VolumeUp';
-import { styled, useTheme } from '@mui/material/styles';
+'use client'
+import { useState } from "react";
+import { SpeakerWaveIcon, SpeakerXMarkIcon } from "@heroicons/react/24/solid"
+
 
 export default function VolumeSlider({ onHandleChange, volumn }) {
-    const theme = useTheme();
+    const [volumeColor, setVolumeColor] = useState('#ffffff')
 
-
+    function onToggleHover(ev) {
+        if (ev.type === 'mousemove') setVolumeColor('#1ed760')
+        else setVolumeColor('#ffffff')
+    }
 
     return (
-        <Box sx={{ width: 200 }}>
-            <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
-                <VolumeDown />
-                {/* <Slider aria-label="Volume" step={0.1} min={0} max={1} value={volumn} onChange={onHandleChange}  /> */}
-                <Slider
-                    aria-label="Volume"
-                    step={0.1} min={0} max={1} value={volumn} onChange={onHandleChange}
-                    sx={{
-                        color: theme.palette.mode !== 'dark' ? '#fff' : 'rgba(0,0,0,0.87)',
-                        '& .MuiSlider-track': {
-                            border: 'none',
-                        },
-                        '& .MuiSlider-thumb': {
-                            width: 24,
-                            height: 24,
-                            backgroundColor: '#fff',
-                            '&:before': {
-                                boxShadow: '0 4px 8px rgba(0,0,0,0.4)',
-                            },
-                            '&:hover, &.Mui-focusVisible, &.Mui-active': {
-                                boxShadow: 'none',
-                            },
-                        },
-                    }}
-                />
-                <VolumeUp />
-            </Stack>
-        </Box>
+        <>
+            {volumn !== '0' ? <SpeakerWaveIcon className="w-5 h-5" /> : <SpeakerXMarkIcon className="w-5 h-5" />}
+            <input
+                type="range"
+                className="volume-range w-full"
+                onChange={onHandleChange}
+                value={volumn}
+                min={0}
+                max={1}
+                step={0.1}
+                onMouseMove={onToggleHover}
+                onMouseLeave={onToggleHover}
+                style={{ background: `linear-gradient(to right, ${volumeColor} 0%, ${volumeColor} ${volumn}%, #b3b3b3 ${volumn}%, #b3b3b3 100%)` }}
+
+
+            />
+        </>
+
     );
 }
