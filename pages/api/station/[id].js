@@ -16,8 +16,6 @@ const handler = async (req, res) => {
         try {
             const station = req.body
             const updatedStation = await update(station)
-            // console.log('updatedStation: ', updatedStation);
-            // res.json(updatedStation)
             return res.status(200).json(updatedStation)
 
         } catch (err) {

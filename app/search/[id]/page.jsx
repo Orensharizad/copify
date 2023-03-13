@@ -18,7 +18,7 @@ function Genre({ params: { id } }) {
         setGenre(genre[0])
         try {
             const stations = await stationService.query()
-            const genreStations = stations.filter(station => station.tags.includes(genre[0].title))
+            const genreStations = stations.filter(station => station?.tags?.includes(genre[0].title))
             setStations(genreStations)
         } catch (err) {
             console.log('err:', err)

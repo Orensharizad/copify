@@ -116,9 +116,9 @@ function StationDetails({ params: { id } }) {
         if (isExsist) return toast.error("This Song already exists")
         const stationToUpdate = { ...station, songs: [song, ...station.songs] }
         try {
-            const newStation = await stationService.save(stationToUpdate)
-            setStation(newStation)
-            setCurrSong(newStation.songs[0])
+            await stationService.save(stationToUpdate)
+            setStation(stationToUpdate)
+            setCurrSong(stationToUpdate.songs[0])
             toast.success('Song Added')
 
         } catch (err) {
@@ -131,7 +131,6 @@ function StationDetails({ params: { id } }) {
             const newStation = await stationService.removeSong(station._id, songId)
             setStation(newStation)
             toast.success('Song Removed')
-
 
         } catch (err) {
             console.log('cannot remove Song:', err)
