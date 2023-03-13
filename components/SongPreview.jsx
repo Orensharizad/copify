@@ -111,7 +111,7 @@ function SongPreview({ song, order, onRemoveSong }) {
             <div className='flex items-center justify-end gap-10 ml-auto md:ml-0' >
                 <HeartIcon onClick={ev => toggleIsLike(ev)} className={`h-5 w-5 opacity-0  cursor-pointer text-white ${isHover && 'opacity-100'} ${isLikedSong && 'fill-[#1ed760] stroke-[#1ed760] opacity-100'}`} />
                 <p>{duration}</p>
-                <TrashIcon onClick={() => onRemoveSong(song.id)} className={`h-5 w-5 opacity-0  cursor-pointer text-white ${isHover && 'opacity-100'}`} />
+                <TrashIcon onClick={(ev) => onRemoveSong(song.id, ev)} className={`h-5 w-5 opacity-0  cursor-pointer text-white ${isHover && 'opacity-100'}`} />
             </div>
         </div>
     )

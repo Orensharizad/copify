@@ -126,7 +126,9 @@ function StationDetails({ params: { id } }) {
         }
     }
 
-    const onRemoveSong = async (songId) => {
+    const onRemoveSong = async (songId, ev) => {
+        ev.stopPropagation()
+
         try {
             const newStation = await stationService.removeSong(station._id, songId)
             setStation(newStation)
